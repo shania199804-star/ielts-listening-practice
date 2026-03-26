@@ -37,27 +37,84 @@
         .subtitle {
             text-align: center;
             color: #888;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 0.9rem;
         }
         
-        /* 模式选择 */
-        .mode-selector {
+        /* 章节选择 */
+        .chapter-selector {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chapter-selector h3 {
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 1rem;
+        }
+        
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .chapter-btn {
+            padding: 12px;
+            border: 2px solid #333;
+            background: transparent;
+            color: #888;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .chapter-btn:hover {
+            border-color: #555;
+            color: #aaa;
+        }
+        
+        .chapter-btn.active {
+            border-color: #00d4ff;
+            color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        /* 音频模式选择 */
+        .audio-mode {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .audio-mode h3 {
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 1rem;
+        }
+        
+        .mode-options {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
+            flex-wrap: wrap;
         }
         
         .mode-btn {
-            padding: 10px 24px;
+            padding: 10px 20px;
             border: 2px solid #333;
             background: transparent;
             color: #888;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         
         .mode-btn.active {
@@ -101,6 +158,13 @@
         .play-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+        
+        .play-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         .speed-control {
@@ -157,7 +221,15 @@
             font-weight: bold;
         }
         
-        /* 单词输入区 */
+        /* 练习模式选择 */
+        .practice-mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        /* 练习区域 */
         .practice-area {
             background: rgba(255,255,255,0.05);
             border-radius: 16px;
@@ -248,6 +320,12 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
         
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
         /* 整段模式 - 单词列表 */
         .batch-mode .words-list {
             display: grid;
@@ -336,57 +414,6 @@
             margin-bottom: 30px;
         }
         
-        /* 数据导入 */
-        .import-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .import-section h3 {
-            margin-bottom: 15px;
-            font-size: 1rem;
-            color: #888;
-        }
-        
-        .file-input-wrapper {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .file-input {
-            display: none;
-        }
-        
-        .file-label {
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-        
-        .file-label:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .json-editor {
-            width: 100%;
-            height: 150px;
-            margin-top: 15px;
-            padding: 15px;
-            border: 1px solid #444;
-            border-radius: 8px;
-            background: rgba(0,0,0,0.3);
-            color: #fff;
-            font-family: monospace;
-            font-size: 0.85rem;
-            resize: vertical;
-        }
-        
         /* 单词本列表 */
         .word-list-preview {
             margin-top: 20px;
@@ -421,6 +448,10 @@
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.4rem;
+            }
+            
+            .chapter-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             
             .speed-control {
@@ -465,6 +496,49 @@
             margin: 0 3px;
             font-family: monospace;
         }
+        
+        /* 文件上传区域 */
+        .file-upload-area {
+            border: 2px dashed #444;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            color: #888;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-label span {
+            font-size: 2rem;
+        }
+        
+        .tts-info {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            color: #00d4ff;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -472,42 +546,58 @@
         <h1>🎧 雅思王听力听写练习</h1>
         <p class="subtitle">IELTS Listening Dictation Practice</p>
         
-        <!-- 数据导入区 -->
-        <div class="import-section">
-            <h3>📁 导入单词数据</h3>
-            <div class="file-input-wrapper">
-                <input type="file" id="audioFile" class="file-input" accept="audio/*">
-                <label for="audioFile" class="file-label">选择音频文件</label>
-                
-                <input type="file" id="jsonFile" class="file-input" accept=".json">
-                <label for="jsonFile" class="file-label">导入JSON单词列表</label>
+        <!-- 章节选择 -->
+        <div class="chapter-selector">
+            <h3>📚 选择章节</h3>
+            <div class="chapter-grid">
+                <button class="chapter-btn" onclick="selectChapter(3)">Chapter 3<br><small>住宿旅游</small></button>
+                <button class="chapter-btn" onclick="selectChapter(4)">Chapter 4<br><small>学术课程</small></button>
+                <button class="chapter-btn" onclick="selectChapter(5)">Chapter 5<br><small>工作求职</small></button>
+                <button class="chapter-btn" onclick="selectChapter(6)">Chapter 6<br><small>医疗场景</small></button>
+                <button class="chapter-btn" onclick="selectChapter(7)">Chapter 7<br><small>银行购物</small></button>
+                <button class="chapter-btn" onclick="selectChapter(8)">Chapter 8<br><small>动植物</small></button>
+                <button class="chapter-btn" onclick="selectChapter(9)">Chapter 9<br><small>建筑地理</small></button>
+                <button class="chapter-btn" onclick="selectChapter(10)">Chapter 10<br><small>其他场景</small></button>
             </div>
-            <textarea class="json-editor" id="jsonEditor" placeholder="或者在此粘贴JSON数据，格式：
-{
-  &quot;title&quot;: &quot;Test 1&quot;,
-  &quot;words&quot;: [&quot;accommodation&quot;, &quot;schedule&quot;, &quot;deadline&quot;]
-}">{
-  "title": "雅思王听力 - Chapter 3 Test 1",
-  "words": ["accommodation", "schedule", "deadline", "assignment", "tutorial", "seminar", "lecture", "library", "resource", "reference"]
-}</textarea>
-            <button class="action-btn btn-primary" onclick="loadData()" style="margin-top: 10px;">加载数据</button>
-            
             <div class="word-list-preview" id="wordListPreview" style="display: none;">
                 <h4>当前单词列表</h4>
                 <div class="word-tags" id="wordTags"></div>
             </div>
         </div>
         
-        <!-- 模式选择 -->
-        <div class="mode-selector">
-            <button class="mode-btn active" onclick="setMode('single')">🔤 单词模式</button>
-            <button class="mode-btn" onclick="setMode('batch')">📝 整段模式</button>
+        <!-- 音频模式选择 -->
+        <div class="audio-mode">
+            <h3>🎵 音频模式</h3>
+            <div class="mode-options">
+                <button class="mode-btn active" onclick="setAudioMode('tts')">🔊 系统朗读</button>
+                <button class="mode-btn" onclick="setAudioMode('file')">📁 本地音频</button>
+            </div>
+            
+            <!-- TTS模式提示 -->
+            <div class="tts-info" id="ttsInfo">
+                💡 系统朗读模式：点击播放按钮，系统会语音朗读单词
+            </div>
+            
+            <!-- 文件上传区域 -->
+            <div class="file-upload-area" id="fileUploadArea" style="display: none;">
+                <input type="file" id="audioFile" class="file-input" accept="audio/*">
+                <label for="audioFile" class="file-label">
+                    <span>📂</span>
+                    <div>点击选择音频文件<br><small>支持 mp3, wav, m4a 格式</small></div>
+                </label>
+            </div>
+        </div>
+        
+        <!-- 练习模式选择 -->
+        <div class="practice-mode-selector">
+            <button class="mode-btn active" onclick="setPracticeMode('single')">🔤 单词模式</button>
+            <button class="mode-btn" onclick="setPracticeMode('batch')">📝 整段模式</button>
         </div>
         
         <!-- 控制面板 -->
         <div class="control-panel">
             <div class="audio-controls">
-                <button class="play-btn" id="playBtn" onclick="togglePlay()">▶</button>
+                <button class="play-btn" id="playBtn" onclick="togglePlay()" disabled>▶</button>
                 
                 <div class="speed-control">
                     <span class="speed-label">倍速:</span>
@@ -521,7 +611,7 @@
             </div>
             
             <div class="progress-info">
-                <span id="currentTitle">未加载数据</span>
+                <span id="currentTitle">请先选择章节</span>
                 <div class="stats">
                     <div class="stat">
                         <span>进度:</span>
@@ -538,9 +628,9 @@
         <!-- 练习区域 -->
         <div class="practice-area" id="practiceArea">
             <div class="hint">
-                <div class="hint-icon">📂</div>
-                <p>请先导入音频文件和单词数据</p>
-                <p style="margin-top: 10px; font-size: 0.85rem;">支持 mp3, wav, m4a 等格式</p>
+                <div class="hint-icon">📚</div>
+                <p>请先选择上方章节开始学习</p>
+                <p style="margin-top: 10px; font-size: 0.85rem;">支持 Chapter 3-10 全部单词</p>
             </div>
         </div>
         
@@ -566,8 +656,46 @@
     <audio id="audioPlayer"></audio>
     
     <script>
+        // 雅思王听力 Chapter 3-10 单词库
+        const wordDatabase = {
+            3: {
+                title: "Chapter 3 - 住宿与旅游",
+                words: ["accommodation", "homestay", "hostel", "hotel", "motel", "inn", "reservation", "reception", "lobby", "elevator", "lift", "balcony", "kitchen", "bathroom", "toilet", "shower", "blanket", "pillow", "sheet", "towel", "laundry", "resort", "cottage", "cabin", "campsite", "caravan", "tent", "booking", "check-in", "check-out", "single room", "double room", "suite", "key", "passport", "visa", "airport", "flight", "terminal", "departure", "arrival", "customs", "immigration", "baggage", "luggage", "suitcase", "backpack", "ticket", "boarding pass", "journey", "trip", "tour", "guide", "tourist", "sightseeing", "attraction", "destination", "route", "map", "guidebook", "brochure", "leaflet"]
+            },
+            4: {
+                title: "Chapter 4 - 学术与课程",
+                words: ["lecture", "seminar", "tutorial", "workshop", "course", "module", "subject", "major", "minor", "degree", "diploma", "certificate", "bachelor", "master", "doctor", "PhD", "professor", "lecturer", "tutor", "supervisor", "student", "undergraduate", "postgraduate", "freshman", "sophomore", "junior", "senior", "enrollment", "registration", "application", "admission", "scholarship", "tuition", "fee", "grant", "loan", "library", "librarian", "book", "textbook", "reference", "journal", "magazine", "newspaper", "article", "essay", "thesis", "dissertation", "assignment", "project", "research", "study", "experiment", "survey", "data", "statistics", "analysis", "presentation", "report", "paper", "exam", "examination", "test", "quiz", "assessment", "evaluation", "grade", "mark", "score", "credit", "term", "semester", "deadline", "extension", "absence", "attendance"]
+            },
+            5: {
+                title: "Chapter 5 - 工作与求职",
+                words: ["job", "work", "career", "profession", "occupation", "position", "post", "role", "title", "rank", "level", "experience", "skill", "ability", "qualification", "certificate", "license", "degree", "diploma", "employer", "employee", "staff", "personnel", "worker", "laborer", "colleague", "co-worker", "team", "department", "section", "division", "branch", "company", "firm", "corporation", "enterprise", "organization", "institution", "agency", "office", "workplace", "factory", "plant", "industry", "business", "trade", "commerce", "interview", "resume", "CV", "application", "candidate", "applicant", "recruitment", "hire", "employ", "dismiss", "fire", "sack", "quit", "resign", "retire", "promote", "demote", "transfer", "salary", "wage", "pay", "income", "earning", "bonus", "commission", "benefit", "pension", "insurance", "tax", "overtime", "shift", "schedule", "timetable", "leave", "holiday", "vacation", "sick leave", "maternity leave"]
+            },
+            6: {
+                title: "Chapter 6 - 医疗与健康",
+                words: ["hospital", "clinic", "surgery", "pharmacy", "chemist", "doctor", "physician", "surgeon", "specialist", "consultant", "nurse", "patient", "dentist", "optician", "pharmacist", "therapist", "psychologist", "psychiatrist", "appointment", "registration", "reception", "waiting room", "ward", "emergency", "casualty", "ICU", "operation", "surgery", "treatment", "therapy", "cure", "remedy", "medicine", "medication", "drug", "pill", "tablet", "capsule", "injection", "vaccine", "dose", "prescription", "symptom", "diagnosis", "condition", "disease", "illness", "sickness", "disorder", "infection", "virus", "bacteria", "pain", "ache", "fever", "temperature", "cough", "cold", "flu", "headache", "stomachache", "toothache", "backache", "allergy", "asthma", "diabetes", "cancer", "fracture", "sprain", "cut", "wound", "injury", "burn", "X-ray", "scan", "test", "check-up", "examination", "blood pressure", "pulse", "heart rate", "diet", "exercise", "fitness", "health", "healthy", "unhealthy", "recover", "recovery", "relapse", "relief", "relieve"]
+            },
+            7: {
+                title: "Chapter 7 - 银行与购物",
+                words: ["bank", "account", "savings account", "checking account", "current account", "deposit account", "deposit", "withdrawal", "balance", "overdraft", "loan", "mortgage", "credit", "debit", "credit card", "debit card", "cash", "check", "cheque", "currency", "exchange", "rate", "interest", "interest rate", "investment", "stock", "share", "bond", "fund", "insurance", "teller", "cashier", "clerk", "manager", "customer", "client", "ATM", "machine", "teller machine", "counter", "queue", "line", "shop", "store", "supermarket", "mall", "market", "boutique", "department store", "grocery", "butcher", "baker", "greengrocer", "florist", "pharmacy", "chemist", "receipt", "invoice", "bill", "price", "cost", "charge", "fee", "discount", "sale", "bargain", "deal", "offer", "promotion", "refund", "return", "exchange", "warranty", "guarantee", "cash", "credit", "payment", "pay", "buy", "purchase", "sell", "sale", "shopping", "item", "product", "goods", "merchandise", "brand", "label", "tag", "size", "color", "colour", "style", "fashion", "trend", "catalogue", "brochure", "leaflet", "advertisement", "ad", "commercial"]
+            },
+            8: {
+                title: "Chapter 8 - 动植物与农业",
+                words: ["animal", "mammal", "bird", "fish", "reptile", "amphibian", "insect", "creature", "species", "breed", "pet", "dog", "cat", "horse", "cow", "cattle", "sheep", "goat", "pig", "chicken", "duck", "goose", "rabbit", "mouse", "rat", "elephant", "lion", "tiger", "bear", "wolf", "fox", "deer", "monkey", "snake", "plant", "flower", "tree", "grass", "bush", "shrub", "vegetable", "fruit", "grain", "crop", "wheat", "rice", "corn", "barley", "oats", "farm", "farmer", "farming", "agriculture", "cultivation", "harvest", "field", "pasture", "meadow", "orchard", "vineyard", "garden", "greenhouse", "soil", "earth", "ground", "land", "fertilizer", "pesticide", "irrigation", "water", "seed", "sow", "plant", "grow", "growth", "ripe", "mature", "organic", "natural", "wild", "domestic", "tame", "environment", "habitat", "ecosystem", "nature", "conservation", "protection", "extinction", "endangered", "rare", "common"]
+            },
+            9: {
+                title: "Chapter 9 - 建筑与地理",
+                words: ["building", "architecture", "structure", "construction", "house", "home", "flat", "apartment", "villa", "mansion", "palace", "castle", "tower", "skyscraper", "high-rise", "block", "complex", "estate", "property", "residence", "dwelling", "shelter", "accommodation", "room", "hall", "lobby", "corridor", "passage", "stair", "staircase", "elevator", "lift", "escalator", "door", "window", "wall", "roof", "ceiling", "floor", "ground", "foundation", "basement", "attic", "garage", "garden", "yard", "gate", "fence", "bridge", "tunnel", "road", "street", "avenue", "boulevard", "lane", "path", "track", "trail", "highway", "motorway", "freeway", "railway", "railroad", "station", "stop", "terminal", "port", "harbor", "harbour", "dock", "pier", "airport", "city", "town", "village", "country", "countryside", "rural", "urban", "suburb", "suburban", "downtown", "center", "centre", "district", "area", "region", "zone", "location", "site", "place", "position", "address", "map", "atlas", "globe", "earth", "world", "continent", "country", "nation", "state", "province", "county", "city", "capital", "border", "boundary", "coast", "coastal", "beach", "shore", "seaside", "mountain", "hill", "valley", "river", "lake", "sea", "ocean", "forest", "wood", "jungle", "desert", "island", "peninsula", "climate", "weather", "temperature", "season", "spring", "summer", "autumn", "fall", "winter"]
+            },
+            10: {
+                title: "Chapter 10 - 其他场景",
+                words: ["weather", "sunny", "cloudy", "rainy", "windy", "snowy", "foggy", "stormy", "temperature", "degree", "climate", "season", "time", "morning", "afternoon", "evening", "night", "midnight", "noon", "dawn", "dusk", "sunrise", "sunset", "day", "date", "week", "month", "year", "century", "decade", "today", "tomorrow", "yesterday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", "colour", "color", "red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black", "white", "grey", "gray", "shape", "circle", "square", "triangle", "rectangle", "round", "size", "big", "small", "large", "tiny", "huge", "material", "wood", "wooden", "metal", "metallic", "plastic", "glass", "cotton", "wool", "silk", "leather", "stone", "rock", "gold", "silver", "direction", "north", "south", "east", "west", "left", "right", "straight", "turn", "corner", "crossing", "junction", "traffic", "vehicle", "car", "bus", "truck", "lorry", "van", "taxi", "cab", "train", "subway", "underground", "metro", "bike", "bicycle", "motorcycle", "ship", "boat", "vessel", "plane", "aircraft"]
+            }
+        };
+
         // 状态管理
-        let currentMode = 'single'; // 'single' 或 'batch'
+        let currentChapter = null;
+        let currentPracticeMode = 'single'; // 'single' 或 'batch'
+        let currentAudioMode = 'tts'; // 'tts' 或 'file'
         let words = [];
         let currentIndex = 0;
         let userAnswers = [];
@@ -575,6 +703,7 @@
         let playbackSpeed = 1;
         let isPlaying = false;
         let audioElement = document.getElementById('audioPlayer');
+        let speechSynthesis = window.speechSynthesis;
         
         // 初始化
         audioElement.addEventListener('ended', () => {
@@ -582,63 +711,61 @@
             updatePlayButton();
         });
         
+        // 选择章节
+        function selectChapter(chapter) {
+            currentChapter = chapter;
+            words = wordDatabase[chapter].words;
+            
+            // 更新UI
+            document.querySelectorAll('.chapter-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index === chapter - 3);
+            });
+            
+            // 显示单词列表
+            const preview = document.getElementById('wordListPreview');
+            const tags = document.getElementById('wordTags');
+            tags.innerHTML = words.map(w => `<span class="word-tag">${w}</span>`).join('');
+            preview.style.display = 'block';
+            
+            // 初始化练习
+            currentIndex = 0;
+            userAnswers = new Array(words.length).fill('');
+            document.getElementById('currentTitle').textContent = wordDatabase[chapter].title;
+            document.getElementById('playBtn').disabled = false;
+            updateProgress();
+            renderPracticeArea();
+        }
+        
+        // 设置音频模式
+        function setAudioMode(mode) {
+            currentAudioMode = mode;
+            document.querySelectorAll('.audio-mode .mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            document.getElementById('ttsInfo').style.display = mode === 'tts' ? 'block' : 'none';
+            document.getElementById('fileUploadArea').style.display = mode === 'file' ? 'block' : 'none';
+        }
+        
+        // 设置练习模式
+        function setPracticeMode(mode) {
+            currentPracticeMode = mode;
+            document.querySelectorAll('.practice-mode-selector .mode-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderPracticeArea();
+        }
+        
         // 文件导入
         document.getElementById('audioFile').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 audioSrc = URL.createObjectURL(file);
                 audioElement.src = audioSrc;
-                document.getElementById('currentTitle').textContent = file.name;
             }
         });
-        
-        document.getElementById('jsonFile').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    document.getElementById('jsonEditor').value = event.target.result;
-                    loadData();
-                };
-                reader.readAsText(file);
-            }
-        });
-        
-        // 加载数据
-        function loadData() {
-            try {
-                const data = JSON.parse(document.getElementById('jsonEditor').value);
-                words = data.words || [];
-                
-                if (words.length === 0) {
-                    alert('单词列表为空');
-                    return;
-                }
-                
-                // 显示单词列表预览
-                const preview = document.getElementById('wordListPreview');
-                const tags = document.getElementById('wordTags');
-                tags.innerHTML = words.map(w => `<span class="word-tag">${w}</span>`).join('');
-                preview.style.display = 'block';
-                
-                // 初始化练习
-                currentIndex = 0;
-                userAnswers = new Array(words.length).fill('');
-                updateProgress();
-                renderPracticeArea();
-                
-            } catch (e) {
-                alert('JSON格式错误: ' + e.message);
-            }
-        }
-        
-        // 设置模式
-        function setMode(mode) {
-            currentMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            renderPracticeArea();
-        }
         
         // 设置倍速
         function setSpeed(speed) {
@@ -654,6 +781,44 @@
         
         // 播放控制
         function togglePlay() {
+            if (currentAudioMode === 'tts') {
+                playTTS();
+            } else {
+                playAudioFile();
+            }
+        }
+        
+        function playTTS() {
+            if (!currentChapter) {
+                alert('请先选择章节');
+                return;
+            }
+            
+            const word = words[currentIndex];
+            if (!word) return;
+            
+            // 停止当前播放
+            speechSynthesis.cancel();
+            
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'en-US';
+            utterance.rate = playbackSpeed;
+            utterance.pitch = 1;
+            
+            utterance.onstart = () => {
+                isPlaying = true;
+                updatePlayButton();
+            };
+            
+            utterance.onend = () => {
+                isPlaying = false;
+                updatePlayButton();
+            };
+            
+            speechSynthesis.speak(utterance);
+        }
+        
+        function playAudioFile() {
             if (!audioSrc) {
                 alert('请先选择音频文件');
                 return;
@@ -677,17 +842,17 @@
         function renderPracticeArea() {
             const area = document.getElementById('practiceArea');
             
-            if (words.length === 0) {
+            if (!currentChapter) {
                 area.innerHTML = `
                     <div class="hint">
-                        <div class="hint-icon">📂</div>
-                        <p>请先导入音频文件和单词数据</p>
+                        <div class="hint-icon">📚</div>
+                        <p>请先选择上方章节开始学习</p>
                     </div>
                 `;
                 return;
             }
             
-            if (currentMode === 'single') {
+            if (currentPracticeMode === 'single') {
                 renderSingleMode(area);
             } else {
                 renderBatchMode(area);
@@ -877,7 +1042,7 @@
         
         // 全局快捷键
         document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+            if (e.target.tagName === 'INPUT') {
                 return;
             }
             
@@ -887,11 +1052,11 @@
                     togglePlay();
                     break;
                 case 'ArrowUp':
-                    if (currentMode === 'single') prevWord();
+                    if (currentPracticeMode === 'single') prevWord();
                     break;
                 case 'ArrowDown':
                 case 'Enter':
-                    if (currentMode === 'single') {
+                    if (currentPracticeMode === 'single') {
                         const input = document.getElementById('wordInput');
                         if (input && !input.disabled) {
                             checkAnswer();
